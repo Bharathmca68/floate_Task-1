@@ -45,18 +45,24 @@ export class AuthService {
 
         const user = await this.userRepository.find({ user_name })
 
-        let page_size = 2;
-
-        let temp;
-
-        function paginate(array, page_size, page_number) {
-
-            return array.slice((page_number - 1) * page_size, page_number * page_size);
-        }
-        temp = paginate(user, page_size, page);
-
         console.log(user.length)
-        return temp
+
+        if (user.length > 1) {
+            let page_size = 2;
+
+            let temp;
+
+            function paginate(array, page_size, page_number) {
+
+                return array.slice((page_number - 1) * page_size, page_number * page_size);
+            }
+            temp = paginate(user, page_size, page);
+
+            console.log(user.length)
+            return temp
+        } else {
+            throw new UnauthorizedException(`couldn't found the username ${user_name}`)
+        }
     }
 
     async remove(id: string): Promise<void> {
