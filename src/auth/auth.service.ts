@@ -40,11 +40,6 @@ export class AuthService {
             take: size,
             skip: size * (page - 1)
         })
-
-        if (user.length === 0) {
-            throw new UnauthorizedException(`End of The Page`)
-        }
-
         return user
     }
 
