@@ -18,13 +18,13 @@ export class AuthController {
     }
 
     @Get('/getalluser')
-    async fetchUser(): Promise<User[]> {
-        return await this.authService.GetAllUsers();
+    async fetchUser(@Query('page') page: number = 1, @Query('size') size: number = 2): Promise<any> {
+        return await this.authService.GetAllUsers(page, size);
     }
 
-    @Get('/searchUser/:page')
-    async searchUser(@Body() authCredDto: AuthCredDto, @Param('page') page: number): Promise<any> {
-        return await this.authService.searchByUsername(authCredDto, page);
+    @Get('/searchUser')
+    async searchUser(@Body() authCredDto: AuthCredDto, @Query('page') page: number = 1, @Query('size') page_size: number = 2): Promise<any> {
+        return await this.authService.searchByUsername(authCredDto, page, page_size);
     }
 
     @Delete('deleteuser/:id')
