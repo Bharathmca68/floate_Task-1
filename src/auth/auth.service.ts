@@ -34,35 +34,29 @@ export class AuthService {
         }
     }
 
-    GetAllUsers(): Promise<User[]> {
-        const user = this.userRepository.find()
+    async GetAllUsers(page, size): Promise<any> {
+
+        const user = await this.userRepository.find({
+            take: size,
+            skip: size * (page - 1)
+        })
         return user
     }
 
 
-    async searchByUsername(authCredDto: AuthCredDto, page): Promise<any> {
+    async searchByUsername(authCredDto: AuthCredDto, page, page_size): Promise<any> {
         const { user_name } = authCredDto
 
-        const user = await this.userRepository.find({ user_name })
-
-        console.log(user.length)
-
-        if (user.length > 1) {
-            let page_size = 2;
-
-            let temp;
-
-            function paginate(array, page_size, page_number) {
-
-                return array.slice((page_number - 1) * page_size, page_number * page_size);
+        const user = await this.userRepository.find(
+            {
+                where: {
+                    user_name: user_name,
+                },
+                take: page_size,
+                skip: page_size * (page - 1)
             }
-            temp = paginate(user, page_size, page);
-
-            console.log(user.length)
-            return temp
-        } else {
-            throw new UnauthorizedException(`couldn't found the username ${user_name}`)
-        }
+        )
+        return user
     }
 
     async remove(id: string): Promise<void> {
