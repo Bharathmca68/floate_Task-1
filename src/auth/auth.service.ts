@@ -42,7 +42,7 @@ export class AuthService {
         })
 
         if (user.length === 0) {
-            throw new UnauthorizedException(`end of the page`)
+            throw new UnauthorizedException(`End of The Page`)
         }
 
         return user
@@ -61,29 +61,7 @@ export class AuthService {
                 skip: page_size * (page - 1)
             }
         )
-
-        // console.log(user)
-        if (user.length === 0) {
-            throw new UnauthorizedException(`End of The Page`)
-        }
-
         return user
-
-
-        // if (user.length > 1) {
-        //     let temp;
-
-        //     function paginate(array, page_size, page_number) {
-
-        //         return array.slice((page_number - 1) * page_size, page_number * page_size);
-        //     }
-        //     temp = paginate(user, page_size, page);
-
-        //     // console.log(user.length)
-        //     return temp
-        // } else {
-        //     throw new UnauthorizedException(`couldn't found the username ${user_name}`)
-        // }
     }
 
     async remove(id: string): Promise<void> {
