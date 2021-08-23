@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthCredDto } from './dto/auth-cred.dto';
+import { AuthCredDto, AuthCredDtoLogin } from './dto/auth-cred.dto';
 import { UserRepository } from './users.repository';
 import * as bcrypt from 'bcrypt'
 import { JwtPayload } from './dto/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
-import { User } from './auth.entity';
 
 @Injectable()
 export class AuthService {
@@ -19,8 +18,8 @@ export class AuthService {
         return await this.userRepository.cretaUser(authCredDto)
     }
 
-    async login(authCredDto: AuthCredDto): Promise<{ accessToken: string }> {
-        const { email, password } = authCredDto
+    async login(authCredDtoLogin: AuthCredDtoLogin): Promise<{ accessToken: string }> {
+        const { email, password } = authCredDtoLogin
 
         const user = await this.userRepository.findOne({ email })
 
